@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Itinerary Planner - Jharkhand Explorer</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .trip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .question-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .question-card:hover, .question-card.active {
+            background-color: #f0f9ff;
+            border-color: #3b82f6 !important;
+        }
+        .category-btn {
+            transition: all 0.3s ease;
+        }
+        .category-btn.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .itinerary-item {
+            border-left: 3px solid #0d6efd;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+        }
+        .destination-img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .category-filter {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+        }
+        .category-filter .btn {
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-gray-50">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="logo.jpeg" alt="Jharkhand Tourism" height="30" class="d-inline-block align-text-top">
+                <span class="ms-2 fw-bold text-primary">Jharkhand Tourism</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Back to Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center mb-5">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3" data-aos="fade-down">AI-Powered Itinerary Planner</h1>
+            <p class="lead mb-4" data-aos="fade-up">Discover the hidden gems of Jharkhand with personalized travel plans</p>
+            <button class="btn btn-primary btn-lg" data-aos="fade-up" data-aos-delay="200" onclick="startPlanning()">Start Planning Now</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mb-5">
+        <!-- Category Filter -->
+        <div class="mb-5" id="categorySection">
+            <h2 class="text-center mb-4">Explore Jharkhand By Categories</h2>
+            <div class="category-filter mb-4">
+                <button class="btn btn-outline-primary category-btn active" data-category="all">All</button>
+                <button class="btn btn-outline-primary category-btn" data-category="waterfall">Waterfalls</button>
+                <button class="btn btn-outline-primary category-btn" data-category="wildlife">Wildlife</button>
+                <button class="btn btn-outline-primary category-btn" data-category="mountain">Mountains</button>
+                <button class="btn btn-outline-primary category-btn" data-category="cultural">Cultural Places</button>
+                <button class="btn btn-outline-primary category-btn" data-category="monument">Monuments</button>
+                <button class="btn btn-outline-primary category-btn" data-category="relaxation">Relaxation</button>
+            </div>
+            
+            <div class="row" id="destinationsContainer">
+                <!-- Destinations will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Planner Steps (Initially Hidden) -->
+        <div class="card mb-5 d-none" id="plannerSection">
+            <div class="card-header">
+                <h3 class="card-title mb-0">Create Your Perfect Trip</h3>
+                <p class="text-muted mb-0">Answer a few questions to help us understand your travel style</p>
+            </div>
+            <div class="card-body">
+                <!-- Progress Bar -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-primary fw-medium">Progress</span>
+                        <span class="text-muted fw-medium" id="progressPercentage">0%</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                <!-- Questions Container -->
+                <div id="questionsContainer">
+                    <!-- Questions will be loaded here by JavaScript -->
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button id="prevBtn" class="btn btn-outline-secondary" onclick="prevQuestion()" disabled>
+                        <i class="bi bi-arrow-left me-2"></i>Back
+                    </button>
+                    <button id="nextBtn" class="btn btn-primary" onclick="nextQuestion()">
+                        Next<i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                    <button id="generateBtn" class="btn btn-success d-none" onclick="generateItinerary()">
+                        <i class="bi bi-magic me-2"></i>Generate Itinerary
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Itinerary Result (Initially Hidden) -->
+        <div class="card mb-5 d-none" id="itineraryResult">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">Your Personalized Itinerary</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id="itineraryDetails">
+                            <!-- Itinerary will be loaded here by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Trip Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="tripSummary">
+                                    <!-- Summary will be loaded here by JavaScript -->
+                                </div>
+                                <button class="btn btn-outline-primary w-100 mt-3" onclick="saveItinerary()">
+                                    <i class="bi bi-download me-2"></i>Save Itinerary
+                                </button>
+                                <button class="btn btn-primary w-100 mt-2" onclick="startOver()">
+                                    <i class="bi bi-arrow-repeat me-2"></i>Start Over
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Itineraries -->
+        <div class="mb-5">
+            <h2 class="text-center mb-4">Popular Itineraries</h2>
+            <div class="row" id="sampleItineraries">
+                <!-- Sample itineraries will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- AI Features -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title mb-0">Why Use Our AI Planner?</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-lightning-fill text-white fs-4"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h4 class="h5">Instant Plans</h4>
+                                <p class="text-muted mb-0">Get complete itineraries in seconds based on your preferences.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-currency-dollar text-white fs-4"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h4 class="h5">Budget Optimization</h4>
+                                <p class="text-muted mb-0">Our AI finds the best value options to maximize your experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-arrow-repeat text-white fs-4"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h4 class="h5">Continuous Learning</h4>
+                                <p class="text-muted mb-0">The more you use it, the better it gets at recommendations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-uppercase">Explore</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">Destinations</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Experiences</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Travel Guides</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Itinerary Planner</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-uppercase">Marketplace</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">Handicrafts</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Homestays</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Local Tours</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Workshops</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-uppercase">Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Our Mission</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Partners</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-uppercase">Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Safety</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Community Guidelines</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <p class="mb-2 mb-md-0">&copy; 2023 Jharkhand Explorer. All rights reserved.</p>
+                <div class="d-flex">
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-twitter fs-5"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-youtube fs-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap & jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Data for destinations in Jharkhand
+        const destinations = [
+            {
+                id: 1,
+                name: "Dassam Falls",
+                category: "waterfall",
+                description: "A magnificent waterfall on the Subarnarekha River, also known as Dassam Ghagh.",
+                image: "dassam.jpeg",
+                location: "Near Ranchi",
+                bestTime: "July to October"
+            },
+            {
+                id: 2,
+                name: "Hundru Falls",
+                category: "waterfall",
+                description: "One of the highest waterfalls in Jharkhand, creating a stunning visual spectacle.",
+                image: "hundru.jpeg",
+                location: "Ranchi district",
+                bestTime: "Monsoon season"
+            },
+            {
+                id: 3,
+                name: "Betla National Park",
+                category: "wildlife",
+                description: "A national park with rich biodiversity, including tigers, elephants, and leopards.",
+                image: "betla.jpeg",
+                location: "Latehar district",
+                bestTime: "November to March"
+            },
+            {
+                id: 4,
+                name: "Palamau Tiger Reserve",
+                category: "wildlife",
+                description: "One of the first tiger reserves in India, known for its diverse flora and fauna.",
+                image: "palamu.jpeg",
+                location: "Palamau district",
+                bestTime: "October to June"
+            },
+            {
+                id: 5,
+                name: "Parasnath Hill",
+                category: "mountain",
+                description: "The highest mountain in Jharkhand, an important pilgrimage site for Jains.",
+                image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                location: "Giridih district",
+                bestTime: "October to March"
+            },
+            {
+                id: 6,
+                name: "Tagore Hill",
+                category: "mountain",
+                description: "A hill named after Rabindranath Tagore who supposedly wrote parts of Gitanjali here.",
+                image: "tagore.jpeg",
+                location: "Ranchi",
+                bestTime: "Throughout the year"
+            },
+            {
+                id: 7,
+                name: "Jagannath Temple",
+                category: "cultural",
+                description: "A 17th-century temple resembling the Puri Jagannath Temple, a major pilgrimage site.",
+                image: "jaganath.jpeg",
+                location: "Ranchi",
+                bestTime: "Rath Yatra season"
+            },
+            {
+                id: 8,
+                name: "Sun Temple",
+                category: "cultural",
+                description: "A beautiful temple shaped like a giant chariot with elaborate stone carvings.",
+                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                location: "Near Ranchi",
+                bestTime: "October to March"
+            },
+            {
+                id: 9,
+                name: "Netarhat",
+                category: "relaxation",
+                description: "A beautiful hill station known as the 'Queen of Chotanagpur', perfect for relaxation.",
+                image: "Netarhat.jpeg",
+                location: "Latehar district",
+                bestTime: "Throughout the year"
+            },
+            {
+                id: 10,
+                name: "McCluskieganj",
+                category: "relaxation",
+                description: "A quaint Anglo-Indian village offering peace and tranquility amidst nature.",
+                image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                location: "Ranchi district",
+                bestTime: "October to March"
+            },
+            {
+                id: 11,
+                name: "Patiala Palace",
+                category: "monument",
+                description: "A royal palace known for its architecture and historical significance.",
+                image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                location: "Ranchi",
+                bestTime: "Throughout the year"
+            },
+            {
+                id: 12,
+                name: "Deori Temple",
+                category: "monument",
+                description: "An ancient temple dedicated to the Sun God, showcasing architectural brilliance.",
+                image: "https://images.unsplash.com/photo-1605050825077-289f85a6cecb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                location: "Near Ranchi",
+                bestTime: "October to March"
+            }
+        ];
+
+        // Questions for the itinerary planner
+        const questions = [
+            {
+                id: 1,
+                question: "What type of traveler are you?",
+                options: [
+                    { id: "adventure", text: "Adventure Seeker", icon: "bi-compass" },
+                    { id: "culture", text: "Culture Explorer", icon: "bi-building" },
+                    { id: "photography", text: "Photography Enthusiast", icon: "bi-camera" },
+                    { id: "relaxation", text: "Relaxation Lover", icon: "bi-umbrella" }
+                ]
+            },
+            {
+                id: 2,
+                question: "How many days do you plan to stay?",
+                options: [
+                    { id: "2-3", text: "2-3 days", icon: "bi-calendar-week" },
+                    { id: "4-5", text: "4-5 days", icon: "bi-calendar-range" },
+                    { id: "6-7", text: "6-7 days", icon: "bi-calendar-month" },
+                    { id: "7+", text: "More than 7 days", icon: "bi-calendar-check" }
+                ]
+            },
+            {
+                id: 3,
+                question: "What's your travel budget?",
+                options: [
+                    { id: "budget", text: "Budget (₹5,000-10,000)", icon: "bi-wallet" },
+                    { id: "moderate", text: "Moderate (₹10,000-20,000)", icon: "bi-wallet2" },
+                    { id: "luxury", text: "Luxury (₹20,000+)", icon: "bi-wallet-fill" }
+                ]
+            },
+            {
+                id: 4,
+                question: "Who are you traveling with?",
+                options: [
+                    { id: "solo", text: "Solo", icon: "bi-person" },
+                    { id: "couple", text: "Couple", icon: "bi-heart" },
+                    { id: "family", text: "Family", icon: "bi-people" },
+                    { id: "friends", text: "Friends", icon: "bi-people-fill" }
+                ]
+            },
+            {
+                id: 5,
+                question: "Which interests you the most?",
+                options: [
+                    { id: "waterfall", text: "Waterfalls", icon: "bi-droplet" },
+                    { id: "wildlife", text: "Wildlife", icon: "bi-tree" },
+                    { id: "mountain", text: "Mountains", icon: "bi-mountain" },
+                    { id: "cultural", text: "Cultural Sites", icon: "bi-building" }
+                ]
+            }
+        ];
+
+        // Sample itineraries
+        const sampleItineraries = [
+            {
+                id: 1,
+                title: "Jharkhand Waterfalls Circuit",
+                duration: "5 days",
+                type: "Adventure",
+                difficulty: "Moderate",
+                image: "https://images.unsplash.com/photo-1628744404730-5e143358539b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                locations: 8,
+                groupFriendly: true,
+                description: "Explore the stunning waterfalls of Jharkhand in this adventurous circuit."
+            },
+            {
+                id: 2,
+                title: "Tribal Culture Immersion",
+                duration: "7 days",
+                type: "Cultural",
+                difficulty: "Easy",
+                image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                locations: 6,
+                authentic: true,
+                description: "Immerse yourself in the rich tribal culture and heritage of Jharkhand."
+            },
+            {
+                id: 3,
+                title: "Wildlife & Nature Retreat",
+                duration: "4 days",
+                type: "Nature",
+                difficulty: "Moderate",
+                image: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                locations: 3,
+                ecoFriendly: true,
+                description: "Discover the diverse wildlife and natural beauty of Jharkhand's national parks."
+            }
+        ];
+
+        // User responses
+        let userResponses = {};
+        let currentQuestion = 0;
+
+        // Initialize the page
+        $(document).ready(function() {
+            loadDestinations('all');
+            loadSampleItineraries();
+            setupCategoryFilters();
+        });
+
+        // Load destinations based on category
+        function loadDestinations(category) {
+            const container = $('#destinationsContainer');
+            container.empty();
+            
+            let filteredDestinations = destinations;
+            if (category !== 'all') {
+                filteredDestinations = destinations.filter(dest => dest.category === category);
+            }
+            
+            filteredDestinations.forEach(dest => {
+                const col = $('<div>').addClass('col-md-6 col-lg-4 mb-4');
+                const card = $('<div>').addClass('card h-100 trip-card');
+                const img = $('<img>').addClass('card-img-top destination-img').attr('src', dest.image).attr('alt', dest.name);
+                const cardBody = $('<div>').addClass('card-body');
+                const title = $('<h5>').addClass('card-title').text(dest.name);
+                const desc = $('<p>').addClass('card-text text-muted small').text(dest.description);
+                const location = $('<p>').addClass('card-text small').html(`<i class="bi bi-geo-alt"></i> ${dest.location}`);
+                const bestTime = $('<p>').addClass('card-text small').html(`<i class="bi bi-calendar-event"></i> Best time: ${dest.bestTime}`);
+                
+                cardBody.append(title, desc, location, bestTime);
+                card.append(img, cardBody);
+                col.append(card);
+                container.append(col);
+            });
+        }
+
+        // Load sample itineraries
+        function loadSampleItineraries() {
+            const container = $('#sampleItineraries');
+            container.empty();
+            
+            sampleItineraries.forEach(itinerary => {
+                const col = $('<div>').addClass('col-md-6 col-lg-4 mb-4');
+                const card = $('<div>').addClass('card h-100 trip-card');
+                const img = $('<img>').addClass('card-img-top').attr('src', itinerary.image).attr('alt', itinerary.title).css('height', '200px').css('object-fit', 'cover');
+                const cardBody = $('<div>').addClass('card-body');
+                const title = $('<h5>').addClass('card-title').text(itinerary.title);
+                const details = $('<p>').addClass('card-text text-muted small').text(`${itinerary.duration} | ${itinerary.type} | ${itinerary.difficulty}`);
+                const description = $('<p>').addClass('card-text').text(itinerary.description);
+                const button = $('<button>').addClass('btn btn-primary w-100 mt-3').html('View Details <i class="bi bi-arrow-right ms-2"></i>');
+                
+                cardBody.append(title, details, description, button);
+                card.append(img, cardBody);
+                col.append(card);
+                container.append(col);
+            });
+        }
+
+        // Set up category filters
+        function setupCategoryFilters() {
+            $('.category-btn').on('click', function() {
+                $('.category-btn').removeClass('active');
+                $(this).addClass('active');
+                const category = $(this).data('category');
+                loadDestinations(category);
+            });
+        }
+
+        // Start the planning process
+        function startPlanning() {
+            $('#categorySection').addClass('d-none');
+            $('#plannerSection').removeClass('d-none');
+            loadQuestion(0);
+        }
+
+        // Load a specific question
+        function loadQuestion(index) {
+            const question = questions[index];
+            const container = $('#questionsContainer');
+            container.empty();
+            
+            const questionTitle = $('<h4>').addClass('h5 mb-4').text(question.question);
+            container.append(questionTitle);
+            
+            const optionsContainer = $('<div>').addClass('row');
+            question.options.forEach(option => {
+                const col = $('<div>').addClass('col-sm-6 col-lg-3 mb-3');
+                const card = $('<div>').addClass('card h-100 question-card')
+                    .data('option-id', option.id)
+                    .click(function() {
+                        $('.question-card').removeClass('active');
+                        $(this).addClass('active');
+                        userResponses[question.id] = option.id;
+                    });
+                
+                const cardBody = $('<div>').addClass('card-body d-flex align-items-center');
+                const icon = $('<i>').addClass(`${option.icon} me-3 fs-4 text-primary`);
+                const text = $('<span>').addClass('fw-medium').text(option.text);
+                
+                cardBody.append(icon, text);
+                card.append(cardBody);
+                col.append(card);
+                optionsContainer.append(col);
+            });
+            
+            container.append(optionsContainer);
+            
+            // Update progress
+            const progress = ((index + 1) / questions.length) * 100;
+            $('#progressBar').css('width', `${progress}%`);
+            $('#progressPercentage').text(`${Math.round(progress)}%`);
+            
+            // Update navigation buttons
+            $('#prevBtn').prop('disabled', index === 0);
+            
+            if (index === questions.length - 1) {
+                $('#nextBtn').addClass('d-none');
+                $('#generateBtn').removeClass('d-none');
+            } else {
+                $('#nextBtn').removeClass('d-none');
+                $('#generateBtn').addClass('d-none');
+            }
+            
+            currentQuestion = index;
+        }
+
+        // Go to next question
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            }
+        }
+
+        // Go to previous question
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        // Generate itinerary based on user responses
+        function generateItinerary() {
+            $('#plannerSection').addClass('d-none');
+            $('#itineraryResult').removeClass('d-none');
+            
+            // Generate a sample itinerary based on user preferences
+            const itineraryDays = userResponses[2] === '2-3' ? 3 : 
+                                 userResponses[2] === '4-5' ? 5 : 
+                                 userResponses[2] === '6-7' ? 7 : 10;
+            
+            const itineraryDetails = $('#itineraryDetails');
+            itineraryDetails.empty();
+            
+            // Generate itinerary days
+            for (let i = 1; i <= itineraryDays; i++) {
+                const dayCard = $('<div>').addClass('itinerary-item');
+                const dayTitle = $('<h4>').addClass('h5').text(`Day ${i}: Exploring Jharkhand`);
+                const dayContent = $('<p>').addClass('text-muted').html(`
+                    <strong>Morning:</strong> Visit local attractions<br>
+                    <strong>Afternoon:</strong> Enjoy local cuisine and cultural experiences<br>
+                    <strong>Evening:</strong> Relax and enjoy the natural beauty
+                `);
+                
+                dayCard.append(dayTitle, dayContent);
+                itineraryDetails.append(dayCard);
+            }
+            
+            // Generate trip summary
+            const tripSummary = $('#tripSummary');
+            tripSummary.empty();
+            
+            const summaryList = $('<ul>').addClass('list-unstyled');
+            summaryList.append($('<li>').html(`<strong>Travel Style:</strong> ${userResponses[1]}`));
+            summaryList.append($('<li>').html(`<strong>Duration:</strong> ${itineraryDays} days`));
+            summaryList.append($('<li>').html(`<strong>Budget:</strong> ${userResponses[3]}`));
+            summaryList.append($('<li>').html(`<strong>Travel Companions:</strong> ${userResponses[4]}`));
+            summaryList.append($('<li>').html(`<strong>Main Interest:</strong> ${userResponses[5]}`));
+            
+            tripSummary.append(summaryList);
+        }
+
+        // Save itinerary (mock function)
+        function saveItinerary() {
+            alert('Your itinerary has been saved! You can access it from your profile.');
+        }
+
+        // Start over the planning process
+        function startOver() {
+            userResponses = {};
+            currentQuestion = 0;
+            $('#itineraryResult').addClass('d-none');
+            $('#plannerSection').removeClass('d-none');
+            loadQuestion(0);
+        }
+    </script>
+</body>
+</html>

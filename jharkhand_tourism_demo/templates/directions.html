@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jharkhand Smart Tourism (Directions)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+</head>
+<body class="font-sans antialiased text-gray-800 bg-gray-50">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-8">
+            🌿 Jharkhand Smart Tourism – Choose Destination
+        </h2>
+
+        <div id="controls" class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <input id="place" placeholder="Enter destination (e.g. Rock Garden Ranchi)" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 w-full sm:w-80 text-center sm:text-left"/>
+            <button onclick="searchPlace()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium shadow-sm w-full sm:w-auto">
+                Get Directions
+            </button>
+        </div>
+        
+        <div id="map" class="h-[75vh] w-full rounded-lg shadow-lg border"></div>
+
+    </div>
+
+    <script>
+        // --- The JavaScript code for the map remains the same ---
+        var map = L.map('map').setView([23.6102, 85.2799], 8);
+        var userLocation;
+
+        // Add OSM tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Locate user
+        map.locate({setView: true, maxZoom: 14});
+        map.on('locationfound', function(e) {
+            userLocation = e.latlng;
+            L.marker(userLocation).addTo(map).bindPopup("You are here").openPopup();
+        });
+
+        function searchPlace() {
+            if (!userLocation) {
+                alert("Please allow location access to get directions.");
+                return;
+            }
+            
+            let query = document.getElementById("place").value;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        let destLat = parseFloat(data[0].lat);
+                        let destLng = parseFloat(data[0].lon);
+
+                        L.marker([destLat, destLng]).addTo(map).bindPopup(query).openPopup();
+
+                        L.Routing.control({
+                            waypoints: [
+                                L.latLng(userLocation.lat, userLocation.lng),
+                                L.latLng(destLat, destLng)
+                            ],
+                            routeWhileDragging: true
+                        }).addTo(map);
+
+                        map.setView([destLat, destLng], 14);
+                    } else {
+                        alert("Place not found");
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

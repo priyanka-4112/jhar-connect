@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Ranchi - Jharkhand Tourism</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body class="bg-white">
+
+    <section class="relative h-96 bg-cover bg-center text-white" style="background-image: url('https://images.unsplash.com/photo-1627895439283-dd0751e5a528?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');">
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
+            <h1 class="text-5xl font-extrabold" data-aos="fade-up">Welcome to Ranchi</h1>
+            <p class="text-xl mt-4" data-aos="fade-up" data-aos-delay="100">The City of Waterfalls</p>
+            <a href="{{ url_for('home') }}" class="mt-8 inline-block bg-white text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-200 transition">&larr; Back to Home</a>
+        </div>
+    </section>
+
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4" data-aos="fade-up">About Ranchi</h2>
+            <p class="text-lg text-gray-600" data-aos="fade-up" data-aos-delay="100">
+                Ranchi, the capital of Jharkhand, is a city blessed with immense natural beauty. Nestled in the Chota Nagpur plateau, it is renowned for its lush green hills, barren rocks, and enchanting waterfalls. The city's pleasant climate and scenic landscapes make it a perfect getaway for nature lovers.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12" data-aos="fade-up">Top Attractions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up">
+                    <img src="hundru.jpeg" alt="Hundru Falls" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Hundru Falls</h3>
+                        <p class="text-gray-600">One of the most famous waterfalls in the region, where the Subarnarekha River falls from a height of 322 feet.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <img src="dassam.jpeg" alt="Dassam Falls" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Dassam Falls</h3>
+                        <p class="text-gray-600">Also known as Dassam Gagh, this spectacular waterfall is a tributary of the Subarnarekha River.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <img src="tagore.jpeg" alt="Tagore Hill" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Tagore Hill</h3>
+                        <p class="text-gray-600">A scenic spot connected to the famous poet Rabindranath Tagore, offering panoramic views of the city.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>&copy; 2025 Jharkhand Explorer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+</body>
+</html>

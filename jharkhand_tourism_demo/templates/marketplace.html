@@ -1,0 +1,264 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Marketplace - Jharkhand Tourism</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs/lib/anime.iife.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2F855A',
+                        secondary: '#ED8936',
+                        accent: '#9F7AEA'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .category-btn.active {
+            background-color: #2F855A;
+            color: white;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-primary font-bold text-xl">Jharkhand Explore</span>
+                </div>
+                
+                <div class="md:hidden flex items-center">
+                    <button id="menu-btn" class="text-gray-600">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Marketplace Header -->
+    <section class="pt-24 pb-16 bg-gradient-to-r from-primary to-green-700 text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-4" data-aos="fade-up">Local Marketplace</h1>
+            <p class="text-xl max-w-3xl" data-aos="fade-up" data-aos-delay="100">Discover authentic tribal handicrafts, book unique experiences, and support local communities directly</p>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-8 bg-white sticky top-16 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex overflow-x-auto space-x-4 py-2 hide-scrollbar">
+                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition active">All Products</button>
+                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Handicrafts</button>
+                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Homestays</button>
+                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Experiences</button>
+                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Textiles</button>
+                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Jewelry</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product Card 1 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos="fade-up">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(bambo_bas.jpeg);">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold">Tribal Bamboo Basket</h3>
+                            <span class="font-bold text-primary">₹850</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Handwoven by Santhal artisans using traditional techniques</p>
+                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos极速飞艇游戏" data-aos-delay="100">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(elephant_paint.jpeg);">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold">Dhokra Art Elephant</h3>
+                            <span class="font-bold text-primary">₹1,200</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Ancient metal casting art form from Jharkhand's tribal communities</p>
+                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(shorai.jpeg);">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold">Traditional Sohrai Painting</h3>
+                            <span class="font-bold text-primary">₹2,500</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Colorful tribal wall art depicting nature and folklore</p>
+                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(jewel.jpeg);">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold">Tribal Jewelry Set</h3>
+                            <span class="font-bold text-primary">₹3,800</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Authentic handmade jewelry using beads, bones and natural materials</p>
+                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Unique Experiences</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-xl mb-2">Tribal Village Homestay</h3>
+                        <p class="text-gray-600 mb-4">Immerse yourself in tribal culture with a family stay experience</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">₹1,500/night</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3137?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-xl mb-2">Traditional Cooking Class</h3>
+                        <p class="text-gray-600 mb-4">Learn to cook authentic tribal dishes with local families</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">₹800/person</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1590649886893-c8eb4a6e4be2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlf极速飞艇游戏');"></div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-xl mb-2">Handicraft Workshop</h3>
+                        <p class="text-gray-600 mb-4">Create your own tribal art with master artisans</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">₹1,200/person</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">Jharkhand Explore</h3>
+                <p class="text-gray-400">Connecting travelers with authentic experiences and local communities</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Marketplace</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">All Products</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Handicrafts</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Experiences</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Support</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Returns & Refunds</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Info</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Connect</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        feather.replace();
+        
+        // Category selection
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Product card animation
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                anime({
+                    targets: card,
+                    translateY: -10,
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+            });
+            card.addEventListener('mouseleave', () => {
+                anime({
+                    targets: card,
+                    translateY: 0,
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

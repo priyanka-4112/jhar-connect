@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Jharkhand Tourism{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50 font-sans">
+
+  <!-- Header -->
+  <header class="bg-green-700 text-white shadow-md">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <a href="{{ url_for('home') }}" class="text-xl font-bold">Jharkhand Explorer</a>
+      <nav class="space-x-6">
+        <a href="{{ url_for('itinerary') }}" class="hover:text-yellow-300">Itinerary</a>
+        <a href="{{ url_for('marketplace') }}" class="hover:text-yellow-300">Marketplace</a>
+        <a href="{{ url_for('arvr') }}" class="hover:text-yellow-300">AR/VR</a>
+        {% if user %}
+          <span class="font-semibold">Welcome, {{ user.email }}</span>
+          <a href="{{ url_for('logout') }}" class="hover:text-yellow-300">Logout</a>
+        {% else %}
+          <a href="{{ url_for('page', page_name='signin.html') }}" class="hover:text-yellow-300">Sign In</a>
+          <a href="{{ url_for('page', page_name='register.html') }}" class="hover:text-yellow-300">Register</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto p-6">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-green-800 text-white text-center py-4 mt-6">
+    <p>&copy; 2025 Jharkhand Tourism | Built with ❤️ during Hackathon</p>
+  </footer>
+
+</body>
+</html>

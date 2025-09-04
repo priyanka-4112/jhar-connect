@@ -1,0 +1,64 @@
+/* === Color Palette === */
+:root {
+  --primary: #006400;   /* Dark green */
+  --secondary: #f4a261; /* Accent */
+  --background: #fdfdfd;
+  --text: #333333;
+}
+
+/* === Global === */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* === Header === */
+header {
+  background: var(--primary);
+  padding: 15px 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--secondary);
+}
+
+/* === Main Content === */
+main {
+  padding: 20px;
+}
+
+/* === Footer === */
+footer {
+  background: var(--primary);
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+}
+
+/* === Chatbox (keep old styling but more consistent) === */
+.chatbox {
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+}

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - Jharkhand Tourism</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs/lib/anime.iife.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2F855A',
+                        secondary: '#ED8936',
+                        accent: '#9F7AEA'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .destination-card {
+            transition: all 0.3s ease;
+        }
+        .destination-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .category-btn.active {
+            background-color: #2F855A;
+            color: white;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+        }
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-bottom: 8px;
+            background-color: #f3f4f6;
+            transition: all 0.3s ease;
+        }
+        .category-btn.active .category-icon {
+            background-color: white;
+        }
+        .header-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        @media (max-width: 768px) {
+            .category-item {
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-primary font-bold text-xl">Jharkhand Explore</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-primary transition">Home</a>
+                    <a href="destination.html" class="text-primary font-medium">Destinations</a>
+                    <a href="arvr.html" class="text-gray-600 hover:text-primary transition">AR/VR Experience</a>
+                    <a href="marketplace.html" class="text-gray-600 hover:text-primary transition">Marketplace</a>
+                    <a href="#" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Plan My Trip</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="menu-btn" class="text-gray-600">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Destinations Header -->
+    <section class="pt-24 pb-16 header-bg text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-4" data-aos="fade-up">Discover Jharkhand</h1>
+            <p class="text-xl max-w-3xl" data-aos="fade-up" data-aos-delay="100">Explore breathtaking waterfalls, ancient forests, tribal heritage, and vibrant culture</p>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-8 bg-white sticky top-16 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex overflow-x-auto space-x-6 py-2 hide-scrollbar">
+                <button class="category-btn whitespace-nowrap px-4 py-3 bg-gray-100 rounded-full text-gray-700 font-medium transition active category-item">
+                    <div class="category-icon">
+                        <i data-feather="map" class="text-primary"></i>
+                    </div>
+                    All
+                </button>
+                <button class="category-btn whitespace-nowrap px-4 py-3 bg-gray-100 rounded-full text-gray-700 font-medium transition category-item">
+                    <div class="category-icon">
+                        <i data-feather="cloud-rain" class="text-primary"></i>
+                    </div>
+                    Waterfalls
+                </button>
+                <button class="category-btn whitespace-nowrap px-4 py-3 bg-gray-100 rounded-full text-gray-700 font-medium transition category-item">
+                    <div class="category-icon">
+                        <i data-feather="github" class="text-primary"></i>
+                    </div>
+                    Wildlife
+                </button>
+                <button class="category-btn whitespace-nowrap px-4 py-3 bg-gray-100 rounded-full text-gray-700 font-medium transition category-item">
+                    <div class="category-icon">
+                        <i data-feather="home" class="text-primary"></i>
+                    </div>
+                    Heritage
+                </button>
+                <button class="category-btn whitespace-nowrap px-4 py-3 bg-gray-100 rounded-full text-gray-700 font-medium transition category-item">
+                    <div class="category-icon">
+                        <i data-feather="users" class="text-primary"></i>
+                    </div>
+                    Tribal
+                </button>
+                <button class="category-btn whitespace-nowrap px-4 py-3 bg-gray-100 rounded-full text-gray-700 font-medium transition category-item">
+                    <div class="category-icon">
+                        <i data-feather="mountain" class="text-primary"></i>
+                    </div>
+                    Hills
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Grid -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Destination 1 - Waterfall -->
+                <div class="destination-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1597212617188-2877816a4c6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-xl">Hundru Falls</h3>
+                            <span class="flex items-center text-sm text-gray-500">
+                                <i data-feather="map-pin" class="w-4 h-4 mr-1"></i>
+                                45km from Ranchi
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">One of the highest waterfalls in Jharkhand, creating a stunning visual spectacle as it drops from a height of 98 meters.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Waterfall</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 2 - Wildlife -->
+                <div class="destination-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1541959833400-049d37f98ccd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-xl">Betla National Park</h3>
+                            <span class="flex items-center text-sm text-gray-500">
+                                <i data-feather="map-pin" class="w-4 h-4 mr-1"></i>
+                                140km from Ranchi
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">A wildlife sanctuary with diverse flora and fauna, including tigers, elephants, and various species of deer and birds.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Wildlife</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 3 - Waterfall -->
+                <div class="destination-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-xl">Jonha Falls</h3>
+                            <span class="flex items-center text-sm text-gray-500">
+                                <i data-feather="map-pin" class="w-4 h-4 mr-1"></i>
+                                40km from Ranchi
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Also known as Gautamdhara, this waterfall is a beautiful picnic spot surrounded by lush green forests.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Waterfall</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 4 - Hills -->
+                <div class="destination-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-xl">Netarhat Plateau</h3>
+                            <span class="flex items-center text-sm text-gray-500">
+                                <i data-feather="map-pin" class="w-4 h-4 mr-1"></i>
+                                156km from Ranchi
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Known as the "Queen of Chotanagpur," this hill station offers breathtaking views and a pleasant climate.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Hill Station</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 5 - Temple -->
+                <div class="destination-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="400">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-xl">Jagannath Temple</h3>
+                            <span class="flex items-center text-sm text-gray-500">
+                                <i data-feather="map-pin" class="w-4 h-4 mr-1"></i>
+                                Ranchi
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">A beautiful temple resembling the Puri Jagannath Temple, offering spiritual solace and architectural beauty.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Heritage</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 6 - Waterfall -->
+                <div class="destination-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="500">
+                    <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1516290338073-6beafbc820c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-xl">Dassam Falls</h3>
+                            <span class="flex items-center text-sm text-gray-500">
+                                <i data-feather="map-pin" class="w-4 h-4 mr-1"></i>
+                                40km from Ranchi
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">A magnificent waterfall where the River Kachni plunges from a height of 44 meters, creating a spectacular view.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Waterfall</span>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Explore</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Explore Jharkhand on Map</h2>
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="h-96 bg-cover bg-center flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1458034407743-d9c484af9ba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="text-center">
+                        <i data-feather="map" class="w-16 h-16 mx-auto mb-4 text-gray-400"></i>
+                        <p class="text-gray-600">Interactive Map of Jharkhand</p>
+                        <p class="text-sm text-gray-500 mt-2">Showing all destinations, transportation routes, and local services</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-4">
+                        <button class="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg hover:bg-green-700 transition">
+                            <i data-feather="navigation" class="w-5 h-5"></i>
+                            Get Directions
+                        </button>
+                        <button class="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition">
+                            <i data-feather="layers" class="w-5 h-5"></i>
+                            Toggle Layers
+                        </button>
+                        <button class="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition">
+                            <i data-feather="download" class="w-5 h-5"></i>
+                            Download Offline Map
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transportation Info -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Getting Around Jharkhand</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center" data-aos="fade-up">
+                    <div class="w-20 h-20 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="bus" class="text-primary w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Local Buses</h3>
+                    <p class="text-gray-600">Affordable bus services connecting major towns and tourist destinations across the state</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="taxi" class="text-secondary w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Taxis & Auto-rickshaws</h3>
+                    <p class="text-gray-600">Convenient local transportation available in all major towns and tourist areas</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 bg-accent bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="car" class="text-accent w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Tourist Vehicles</h3>
+                    <p class="text-gray-600">Book comfortable AC vehicles with verified drivers for sightseeing and inter-city travel</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">Jharkhand Explore</h3>
+                <p class="text-gray-400">Connecting travelers with authentic experiences and local communities</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Destinations</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Waterfalls</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Wildlife Sanctuaries</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Heritage Sites</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Support</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Travel Guidelines</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Transportation Info</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Emergency Contacts</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Connect</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        feather.replace();
+        
+        // Category selection
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Destination card animation
+        document.querySelectorAll('.destination-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                anime({
+                    targets: card,
+                    translateY: -10,
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+            });
+            card.addEventListener('mouseleave', () => {
+                anime({
+                    targets: card,
+                    translateY: 0,
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
