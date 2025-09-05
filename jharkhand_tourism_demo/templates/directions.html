@@ -1,81 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jharkhand Smart Tourism (Directions)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-</head>
-<body class="font-sans antialiased text-gray-800 bg-gray-50">
+{% extends 'base.html' %}
 
+{% block title %}Route Planner - Jharkhand Tourism{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-8">
-            🌿 Jharkhand Smart Tourism – Choose Destination
-        </h2>
 
-        <div id="controls" class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <input id="place" placeholder="Enter destination (e.g. Rock Garden Ranchi)" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 w-full sm:w-80 text-center sm:text-left"/>
-            <button onclick="searchPlace()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium shadow-sm w-full sm:w-auto">
-                Get Directions
-            </button>
+        <!-- Page Header -->
+        <div class="text-center mb-10" data-aos="fade-up">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
+                Plan Your Route
+            </h1>
+            <p class="mt-4 text-lg text-slate-600">
+                Find the best route to your favorite destinations in Jharkhand.
+            </p>
         </div>
-        
-        <div id="map" class="h-[75vh] w-full rounded-lg shadow-lg border"></div>
+
+        <!-- Controls & Map Container -->
+        <div class="bg-white p-6 rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="100">
+            <!-- Input Controls -->
+            <div id="controls" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-4">
+                <div class="md:col-span-1">
+                    <input id="start" type="text" placeholder="Enter starting location" class="w-full px-4 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                </div>
+                <div class="md:col-span-1">
+                    <input id="end" type="text" placeholder="Enter your destination" class="w-full px-4 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                </div>
+                <div class="md:col-span-1 flex flex-col sm:flex-row gap-4">
+                    <button onclick="getDirections()" class="w-full bg-green-700 text-white font-bold py-2 px-4 rounded-md hover:bg-green-800 transition duration-300">
+                        Get Directions
+                    </button>
+                    <label class="flex items-center justify-center whitespace-nowrap">
+                        <input type="checkbox" id="useCurrent" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 mr-2">
+                        Use my location
+                    </label>
+                </div>
+            </div>
+
+            <!-- Status Message Area -->
+            <div id="status-message" class="text-center text-slate-600 p-2 mb-4 h-8"></div>
+
+            <!-- The Map -->
+            <div id="map" class="w-full h-[65vh] rounded-md shadow-inner border"></div>
+        </div>
 
     </div>
+</div>
 
-    <script>
-        // --- The JavaScript code for the map remains the same ---
-        var map = L.map('map').setView([23.6102, 85.2799], 8);
-        var userLocation;
+<!-- Leaflet CSS (place before the script) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 
-        // Add OSM tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
 
-        // Locate user
-        map.locate({setView: true, maxZoom: 14});
-        map.on('locationfound', function(e) {
-            userLocation = e.latlng;
-            L.marker(userLocation).addTo(map).bindPopup("You are here").openPopup();
-        });
+<script>
+    // Initialize map centered on Jharkhand
+    var map = L.map('map').setView([23.6102, 85.2799], 8);
+    var userLocation = null;
+    var routingControl = null;
+    var markers = [];
+    var statusMessage = document.getElementById('status-message');
 
-        function searchPlace() {
-            if (!userLocation) {
-                alert("Please allow location access to get directions.");
-                return;
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Get user's current location
+    map.locate({ setView: false, maxZoom: 14 });
+    map.on('locationfound', function(e) {
+        userLocation = e.latlng;
+        let marker = L.marker(userLocation).addTo(map).bindPopup("📍 You are here");
+        markers.push(marker);
+        statusMessage.textContent = "✅ Current location found!";
+        setTimeout(() => statusMessage.textContent = "", 3000);
+    });
+    map.on('locationerror', function(e) {
+        statusMessage.textContent = "⚠️ Could not find your location. Please enter it manually.";
+    });
+
+    // --- Geocoding Function ---
+    // Converts a place name into coordinates using the Nominatim API
+    async function geocode(query) {
+        // *** THE MAIN FIX IS HERE: The URL string was missing quotes ***
+        let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+        let res = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'JharkhandTourismApp/1.0', // Important for API policy
             }
-            
-            let query = document.getElementById("place").value;
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        let destLat = parseFloat(data[0].lat);
-                        let destLng = parseFloat(data[0].lon);
-
-                        L.marker([destLat, destLng]).addTo(map).bindPopup(query).openPopup();
-
-                        L.Routing.control({
-                            waypoints: [
-                                L.latLng(userLocation.lat, userLocation.lng),
-                                L.latLng(destLat, destLng)
-                            ],
-                            routeWhileDragging: true
-                        }).addTo(map);
-
-                        map.setView([destLat, destLng], 14);
-                    } else {
-                        alert("Place not found");
-                    }
-                });
+        });
+        let data = await res.json();
+        if (data.length > 0) {
+            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+        } else {
+            throw "Place not found: " + query;
         }
-    </script>
-</body>
-</html>
+    }
+
+    // --- Main Get Directions Function ---
+    async function getDirections() {
+        let useCurrent = document.getElementById("useCurrent").checked;
+        let startInput = document.getElementById("start").value.trim();
+        let endInput = document.getElementById("end").value.trim();
+
+        if (!endInput) {
+            statusMessage.textContent = "Please enter a destination.";
+            return;
+        }
+
+        statusMessage.textContent = "Finding route...";
+
+        try {
+            let startCoords;
+            if (useCurrent) {
+                if (!userLocation) {
+                    statusMessage.textContent = "Please allow location access or enter a starting point manually.";
+                    return;
+                }
+                startCoords = [userLocation.lat, userLocation.lng];
+            } else {
+                if (!startInput) {
+                    statusMessage.textContent = "Please enter a starting location.";
+                    return;
+                }
+                startCoords = await geocode(startInput);
+            }
+
+            let endCoords = await geocode(endInput);
+
+            // Clear old map layers
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+            if (routingControl) {
+                map.removeControl(routingControl);
+            }
+
+            // Add new route using OSRM
+            routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(startCoords[0], startCoords[1]),
+                    L.latLng(endCoords[0], endCoords[1])
+                ],
+                routeWhileDragging: true,
+                router: new L.Routing.OSRMv1({
+                    serviceUrl: 'https://router.project-osrm.org/route/v1'
+                })
+            }).addTo(map);
+
+            statusMessage.textContent = "Route found!";
+            setTimeout(() => statusMessage.textContent = "", 3000);
+
+        } catch (err) {
+            statusMessage.textContent = `❌ Error: ${err}`;
+        }
+    }
+</script>
+{% endblock %}

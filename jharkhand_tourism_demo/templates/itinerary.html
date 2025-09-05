@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Itinerary Planner - Jharkhand Explorer</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- AOS Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         .trip-card:hover {
@@ -40,7 +37,7 @@
             margin-bottom: 1.5rem;
         }
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{{ url_for('static', filename='jhar.jpeg') }}");
             background-size: cover;
             background-position: center;
             color: white;
@@ -63,11 +60,10 @@
     </style>
 </head>
 <body class="font-sans antialiased bg-gray-50">
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="logo.jpeg" alt="Jharkhand Tourism" height="30" class="d-inline-block align-text-top">
+                <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Jharkhand Tourism" height="30" class="d-inline-block align-text-top">
                 <span class="ms-2 fw-bold text-primary">Jharkhand Tourism</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +79,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero-section text-center mb-5">
         <div class="container">
             <h1 class="display-4 fw-bold mb-3" data-aos="fade-down">AI-Powered Itinerary Planner</h1>
@@ -92,9 +87,7 @@
         </div>
     </section>
 
-    <!-- Main Content -->
     <div class="container mb-5">
-        <!-- Category Filter -->
         <div class="mb-5" id="categorySection">
             <h2 class="text-center mb-4">Explore Jharkhand By Categories</h2>
             <div class="category-filter mb-4">
@@ -108,18 +101,15 @@
             </div>
             
             <div class="row" id="destinationsContainer">
-                <!-- Destinations will be loaded here by JavaScript -->
-            </div>
+                </div>
         </div>
 
-        <!-- Planner Steps (Initially Hidden) -->
         <div class="card mb-5 d-none" id="plannerSection">
             <div class="card-header">
                 <h3 class="card-title mb-0">Create Your Perfect Trip</h3>
                 <p class="text-muted mb-0">Answer a few questions to help us understand your travel style</p>
             </div>
             <div class="card-body">
-                <!-- Progress Bar -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between mb-1">
                         <span class="text-primary fw-medium">Progress</span>
@@ -130,12 +120,9 @@
                     </div>
                 </div>
 
-                <!-- Questions Container -->
                 <div id="questionsContainer">
-                    <!-- Questions will be loaded here by JavaScript -->
-                </div>
+                    </div>
 
-                <!-- Navigation Buttons -->
                 <div class="d-flex justify-content-between mt-4">
                     <button id="prevBtn" class="btn btn-outline-secondary" onclick="prevQuestion()" disabled>
                         <i class="bi bi-arrow-left me-2"></i>Back
@@ -150,7 +137,6 @@
             </div>
         </div>
 
-        <!-- Itinerary Result (Initially Hidden) -->
         <div class="card mb-5 d-none" id="itineraryResult">
             <div class="card-header bg-success text-white">
                 <h3 class="card-title mb-0">Your Personalized Itinerary</h3>
@@ -159,8 +145,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div id="itineraryDetails">
-                            <!-- Itinerary will be loaded here by JavaScript -->
-                        </div>
+                            </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
@@ -169,8 +154,7 @@
                             </div>
                             <div class="card-body">
                                 <div id="tripSummary">
-                                    <!-- Summary will be loaded here by JavaScript -->
-                                </div>
+                                    </div>
                                 <button class="btn btn-outline-primary w-100 mt-3" onclick="saveItinerary()">
                                     <i class="bi bi-download me-2"></i>Save Itinerary
                                 </button>
@@ -184,15 +168,12 @@
             </div>
         </div>
 
-        <!-- Sample Itineraries -->
         <div class="mb-5">
             <h2 class="text-center mb-4">Popular Itineraries</h2>
             <div class="row" id="sampleItineraries">
-                <!-- Sample itineraries will be loaded here by JavaScript -->
-            </div>
+                </div>
         </div>
 
-        <!-- AI Features -->
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title mb-0">Why Use Our AI Planner?</h3>
@@ -243,7 +224,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-dark text-white py-5">
         <div class="container">
             <div class="row">
@@ -297,10 +277,8 @@
         </div>
     </footer>
 
-    <!-- Bootstrap & jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- AOS Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
@@ -381,7 +359,7 @@
                 name: "Sun Temple",
                 category: "cultural",
                 description: "A beautiful temple shaped like a giant chariot with elaborate stone carvings.",
-                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "suntemp.jpeg",
                 location: "Near Ranchi",
                 bestTime: "October to March"
             },
@@ -390,7 +368,7 @@
                 name: "Netarhat",
                 category: "relaxation",
                 description: "A beautiful hill station known as the 'Queen of Chotanagpur', perfect for relaxation.",
-                image: "Netarhat.jpeg",
+                image: "netarhat.jpeg",
                 location: "Latehar district",
                 bestTime: "Throughout the year"
             },
@@ -399,7 +377,7 @@
                 name: "McCluskieganj",
                 category: "relaxation",
                 description: "A quaint Anglo-Indian village offering peace and tranquility amidst nature.",
-                image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "McLeodganj.jpeg",
                 location: "Ranchi district",
                 bestTime: "October to March"
             },
@@ -408,7 +386,7 @@
                 name: "Patiala Palace",
                 category: "monument",
                 description: "A royal palace known for its architecture and historical significance.",
-                image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "patiala.jpeg",
                 location: "Ranchi",
                 bestTime: "Throughout the year"
             },
@@ -417,7 +395,7 @@
                 name: "Deori Temple",
                 category: "monument",
                 description: "An ancient temple dedicated to the Sun God, showcasing architectural brilliance.",
-                image: "https://images.unsplash.com/photo-1605050825077-289f85a6cecb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "deori.jpeg",
                 location: "Near Ranchi",
                 bestTime: "October to March"
             }
@@ -484,7 +462,7 @@
                 duration: "5 days",
                 type: "Adventure",
                 difficulty: "Moderate",
-                image: "https://images.unsplash.com/photo-1628744404730-5e143358539b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "dassam.jpeg",
                 locations: 8,
                 groupFriendly: true,
                 description: "Explore the stunning waterfalls of Jharkhand in this adventurous circuit."
@@ -495,7 +473,7 @@
                 duration: "7 days",
                 type: "Cultural",
                 difficulty: "Easy",
-                image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "culture.jpeg",
                 locations: 6,
                 authentic: true,
                 description: "Immerse yourself in the rich tribal culture and heritage of Jharkhand."
@@ -506,7 +484,7 @@
                 duration: "4 days",
                 type: "Nature",
                 difficulty: "Moderate",
-                image: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "wildlife.jpeg",
                 locations: 3,
                 ecoFriendly: true,
                 description: "Discover the diverse wildlife and natural beauty of Jharkhand's national parks."
@@ -516,6 +494,16 @@
         // User responses
         let userResponses = {};
         let currentQuestion = 0;
+        
+        // **FUNCTION TO GET CORRECT IMAGE URL**
+        function getImageUrl(imageName) {
+            // If the image name is a full URL, use it directly.
+            // Otherwise, prepend the path to the static folder.
+            if (imageName.startsWith('http')) {
+                return imageName;
+            }
+            return `/static/${imageName}`;
+        }
 
         // Initialize the page
         $(document).ready(function() {
@@ -537,7 +525,7 @@
             filteredDestinations.forEach(dest => {
                 const col = $('<div>').addClass('col-md-6 col-lg-4 mb-4');
                 const card = $('<div>').addClass('card h-100 trip-card');
-                const img = $('<img>').addClass('card-img-top destination-img').attr('src', dest.image).attr('alt', dest.name);
+                const img = $('<img>').addClass('card-img-top destination-img').attr('src', getImageUrl(dest.image)).attr('alt', dest.name);
                 const cardBody = $('<div>').addClass('card-body');
                 const title = $('<h5>').addClass('card-title').text(dest.name);
                 const desc = $('<p>').addClass('card-text text-muted small').text(dest.description);
@@ -559,7 +547,7 @@
             sampleItineraries.forEach(itinerary => {
                 const col = $('<div>').addClass('col-md-6 col-lg-4 mb-4');
                 const card = $('<div>').addClass('card h-100 trip-card');
-                const img = $('<img>').addClass('card-img-top').attr('src', itinerary.image).attr('alt', itinerary.title).css('height', '200px').css('object-fit', 'cover');
+                const img = $('<img>').addClass('card-img-top').attr('src', getImageUrl(itinerary.image)).attr('alt', itinerary.title).css('height', '200px').css('object-fit', 'cover');
                 const cardBody = $('<div>').addClass('card-body');
                 const title = $('<h5>').addClass('card-title').text(itinerary.title);
                 const details = $('<p>').addClass('card-text text-muted small').text(`${itinerary.duration} | ${itinerary.type} | ${itinerary.difficulty}`);
@@ -662,8 +650,8 @@
             
             // Generate a sample itinerary based on user preferences
             const itineraryDays = userResponses[2] === '2-3' ? 3 : 
-                                 userResponses[2] === '4-5' ? 5 : 
-                                 userResponses[2] === '6-7' ? 7 : 10;
+                                  userResponses[2] === '4-5' ? 5 : 
+                                  userResponses[2] === '6-7' ? 7 : 10;
             
             const itineraryDetails = $('#itineraryDetails');
             itineraryDetails.empty();

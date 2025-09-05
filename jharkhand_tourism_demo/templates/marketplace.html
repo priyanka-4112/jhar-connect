@@ -1,263 +1,721 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Marketplace - Jharkhand Tourism</title>
+    <title>Jharkhand Marketplace | Tribal Treasures</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/animejs/lib/anime.iife.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2F855A',
-                        secondary: '#ED8936',
-                        accent: '#9F7AEA'
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .category-btn.active {
-            background-color: #2F855A;
-            color: white;
+        .cart-sidebar {
+            transition: all 0.3s ease;
         }
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .notification {
+            animation: fadeInOut 3s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-primary font-bold text-xl">Jharkhand Explore</span>
-                </div>
-                
-                <div class="md:hidden flex items-center">
-                    <button id="menu-btn" class="text-gray-600">
-                        <i data-feather="menu"></i>
-                    </button>
-                </div>
+    <nav class="bg-amber-800 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold flex items-center">
+                <i data-feather="compass" class="mr-2"></i> Jharkhand Treasures
+            </a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-amber-200">Home</a>
+                <a href="#" class="hover:text-amber-200">Categories</a>
+                <a href="#" class="hover:text-amber-200">About</a>
+                <a href="#" class="hover:text-amber-200">Contact</a>
             </div>
+            <button id="cart-toggle" class="relative p-2 rounded-full hover:bg-amber-700">
+                <i data-feather="shopping-cart"></i>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+            </button>
         </div>
     </nav>
 
-    <!-- Marketplace Header -->
-    <section class="pt-24 pb-16 bg-gradient-to-r from-primary to-green-700 text-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <h1 class="text-4xl font-bold mb-4" data-aos="fade-up">Local Marketplace</h1>
-            <p class="text-xl max-w-3xl" data-aos="fade-up" data-aos-delay="100">Discover authentic tribal handicrafts, book unique experiences, and support local communities directly</p>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row">
+        <!-- Products Section -->
+        <div class="w-full md:w-3/4">
+            <!-- Search Bar -->
+            <div class="mb-8">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Search products by name or category..." 
+                           class="w-full p-4 pl-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <i data-feather="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
 
-    <!-- Categories -->
-    <section class="py-8 bg-white sticky top-16 z-40 shadow-md">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex overflow-x-auto space-x-4 py-2 hide-scrollbar">
-                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition active">All Products</button>
-                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Handicrafts</button>
-                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Homestays</button>
-                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Experiences</button>
-                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Textiles</button>
-                <button class="category-btn whitespace-nowrap px-6 py-2 bg-gray-100 rounded-full text-gray-700 font-medium transition">Jewelry</button>
+            <!-- Categories -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 text-amber-900 border-b-2 border-amber-200 pb-2">Product Categories</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                    <div class="category-tag bg-amber-100 text-amber-800 px-3 py-2 rounded-full text-center text-sm font-medium cursor-pointer hover:bg-amber-200 transition" data-category="handicrafts">Handicrafts</div>
+                    <div class="category-tag bg-amber-100 text-amber-800 px-3 py-2 rounded-full text-center text-sm font-medium cursor-pointer hover:bg-amber-200 transition" data-category="jewelry">Tribal Jewelry</div>
+                    <div class="category-tag bg-amber-100 text-amber-800 px-3 py-2 rounded-full text-center text-sm font-medium cursor-pointer hover:bg-amber-200 transition" data-category="textiles">Handloom & Textiles</div>
+                    <div class="category-tag bg-amber-100 text-amber-800 px-3 py-2 rounded-full text-center text-sm font-medium cursor-pointer hover:bg-amber-200 transition" data-category="food">Traditional Food</div>
+                    <div class="category-tag bg-amber-100 text-amber-800 px-3 py-2 rounded-full text-center text-sm font-medium cursor-pointer hover:bg-amber-200 transition" data-category="bamboo">Bamboo & Wood</div>
+                    <div class="category-tag bg-amber-100 text-amber-800 px-3 py-2 rounded-full text-center text-sm font-medium cursor-pointer hover:bg-amber-200 transition" data-category="dokra">Dokra Art</div>
+                     
+                </div>
+            </div>
+
+           <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Handicrafts (5 products) -->
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="handicrafts">
+        <img src="http://static.photos/handicrafts/300x200/1" alt="Tribal Wooden Mask" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Tribal Wooden Mask</h3>
+            <p class="text-gray-600 mb-4">Hand-carved wooden mask for home decor.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹850</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
             </div>
         </div>
-    </section>
-
-    <!-- Products Grid -->
-    <section class="py-12">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Product Card 1 -->
-                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos="fade-up">
-                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(bambo_bas.jpeg);">
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
-                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-semibold">Tribal Bamboo Basket</h3>
-                            <span class="font-bold text-primary">₹850</span>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4">Handwoven by Santhal artisans using traditional techniques</p>
-                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos极速飞艇游戏" data-aos-delay="100">
-                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(elephant_paint.jpeg);">
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
-                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-semibold">Dhokra Art Elephant</h3>
-                            <span class="font-bold text-primary">₹1,200</span>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4">Ancient metal casting art form from Jharkhand's tribal communities</p>
-                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos="fade-up" data-aos-delay="200">
-                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(shorai.jpeg);">
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
-                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-semibold">Traditional Sohrai Painting</h3>
-                            <span class="font-bold text-primary">₹2,500</span>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4">Colorful tribal wall art depicting nature and folklore</p>
-                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300" data-aos="fade-up" data-aos-delay="300">
-                    <div class="h-48 bg-cover bg-center relative" style="background-image: url(jewel.jpeg);">
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
-                            <i data-feather="heart" class="w-4 h-4 text-gray-600"></i>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-semibold">Tribal Jewelry Set</h3>
-                            <span class="font-bold text-primary">₹3,800</span>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4">Authentic handmade jewelry using beads, bones and natural materials</p>
-                        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-green-700 transition">Add to Cart</button>
-                    </div>
-                </div>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="handicrafts">
+        <img src="http://static.photos/handicrafts/300x200/2" alt="Clay Pot Set" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Clay Pot Set</h3>
+            <p class="text-gray-600 mb-4">Traditional clay pots crafted by tribal artisans.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹650</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
             </div>
         </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section class="py-16 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Unique Experiences</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');"></div>
-                    <div class="p-6">
-                        <h3 class="font-semibold text-xl mb-2">Tribal Village Homestay</h3>
-                        <p class="text-gray-600 mb-4">Immerse yourself in tribal culture with a family stay experience</p>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-primary">₹1,500/night</span>
-                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Book Now</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="100">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3137?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');"></div>
-                    <div class="p-6">
-                        <h3 class="font-semibold text-xl mb-2">Traditional Cooking Class</h3>
-                        <p class="text-gray-600 mb-4">Learn to cook authentic tribal dishes with local families</p>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-primary">₹800/person</span>
-                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Book Now</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="200">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1590649886893-c8eb4a6e4be2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlf极速飞艇游戏');"></div>
-                    <div class="p-6">
-                        <h3 class="font-semibold text-xl mb-2">Handicraft Workshop</h3>
-                        <p class="text-gray-600 mb-4">Create your own tribal art with master artisans</p>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-primary">₹1,200/person</span>
-                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Book Now</button>
-                        </div>
-                    </div>
-                </div>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="handicrafts">
+        <img src="http://static.photos/handicrafts/300x200/3" alt="Tribal Painting" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Sohrai Painting</h3>
+            <p class="text-gray-600 mb-4">Colorful tribal Sohrai wall painting.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹1,200</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8">
-            <div>
-                <h3 class="text-xl font-bold mb-4">Jharkhand Explore</h3>
-                <p class="text-gray-400">Connecting travelers with authentic experiences and local communities</p>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Marketplace</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-400 hover:text-white transition">All Products</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition">Handicrafts</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition">Experiences</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Support</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-400 hover:text-white transition">Returns & Refunds</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Info</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Support</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Connect</h4>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="facebook"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="instagram"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="twitter"></i></a>
-                </div>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="handicrafts">
+        <img src="http://static.photos/handicrafts/300x200/4" alt="Wooden Toy" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Wooden Elephant Toy</h3>
+            <p class="text-gray-600 mb-4">Handcrafted wooden toy with tribal designs.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹400</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
             </div>
         </div>
-    </footer>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="handicrafts">
+        <img src="http://static.photos/handicrafts/300x200/5" alt="Stone Sculpture" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Stone Sculpture</h3>
+            <p class="text-gray-600 mb-4">Carved tribal stone sculpture for decor.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹2,000</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- Tribal Jewelry (5 products) -->
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="jewelry">
+        <img src="http://static.photos/jewelry/300x200/1" alt="Silver Necklace" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Silver Tribal Necklace</h3>
+            <p class="text-gray-600 mb-4">Authentic tribal silver necklace with beads.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹2,500</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="jewelry">
+        <img src="http://static.photos/jewelry/300x200/2" alt="Metal Earrings" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Dokra Earrings</h3>
+            <p class="text-gray-600 mb-4">Handmade brass earrings using lost-wax method.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹900</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="jewelry">
+        <img src="http://static.photos/jewelry/300x200/3" alt="Bead Necklace" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Beaded Necklace</h3>
+            <p class="text-gray-600 mb-4">Colorful tribal bead necklace.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹600</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="jewelry">
+        <img src="http://static.photos/jewelry/300x200/4" alt="Oxidised Bracelet" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Oxidised Bracelet</h3>
+            <p class="text-gray-600 mb-4">Traditional oxidised bracelet with tribal motifs.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹750</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="jewelry">
+        <img src="http://static.photos/jewelry/300x200/5" alt="Silver Anklet" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Silver Anklet</h3>
+            <p class="text-gray-600 mb-4">Pair of traditional tribal anklets in silver.</p>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-700">₹1,400</span>
+                <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+            </div>
+        </div>
+    </div>
+    <!-- Handloom & Textiles (5 products) -->
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="textiles">
+    <img src="http://static.photos/textiles/300x200/1" alt="Tussar Silk Saree" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Tussar Silk Saree</h3>
+        <p class="text-gray-600 mb-4">Pure Tussar silk saree with traditional tribal patterns.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹3,200</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="textiles">
+    <img src="http://static.photos/textiles/300x200/2" alt="Cotton Kurta" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Handwoven Cotton Kurta</h3>
+        <p class="text-gray-600 mb-4">Soft handspun cotton kurta with tribal embroidery.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹1,200</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="textiles">
+    <img src="http://static.photos/textiles/300x200/3" alt="Wool Shawl" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Wool Tribal Shawl</h3>
+        <p class="text-gray-600 mb-4">Warm wool shawl with handloom tribal geometric designs.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹2,000</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="textiles">
+    <img src="http://static.photos/textiles/300x200/4" alt="Tribal Dupatta" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Embroidered Dupatta</h3>
+        <p class="text-gray-600 mb-4">Handwoven dupatta with intricate tribal embroidery.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹900</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="textiles">
+    <img src="http://static.photos/textiles/300x200/5" alt="Handloom Scarf" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Handloom Cotton Scarf</h3>
+        <p class="text-gray-600 mb-4">Lightweight cotton scarf dyed with natural tribal colors.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹450</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+
+ 
+ <!-- Traditional Food (5 products) -->
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="food">
+    <img src="http://static.photos/food/300x200/1" alt="Mahua Honey" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Mahua Honey</h3>
+        <p class="text-gray-600 mb-4">Pure organic honey collected from Mahua flowers by tribal communities.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹350</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="food">
+    <img src="http://static.photos/food/300x200/2" alt="Chironji Seeds" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Chironji Seeds</h3>
+        <p class="text-gray-600 mb-4">Nutritious tribal forest produce used in sweets and curries.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹480</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="food">
+    <img src="http://static.photos/food/300x200/3" alt="Wild Tamarind Pickle" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Wild Tamarind Pickle</h3>
+        <p class="text-gray-600 mb-4">Tangy homemade pickle made with forest-fresh tamarind.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹220</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="food">
+    <img src="http://static.photos/food/300x200/4" alt="Mahua Ladoo" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Mahua Ladoo</h3>
+        <p class="text-gray-600 mb-4">Delicious sweet balls made with Mahua flowers & jaggery.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹300</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="food">
+    <img src="http://static.photos/food/300x200/5" alt="Tribal Rice Variety" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Black Rice (Kalabhat)</h3>
+        <p class="text-gray-600 mb-4">Rare indigenous black rice rich in antioxidants and nutrition.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹750</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+ <!-- Bamboo & Wood Works (5 products) -->
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="bamboo">
+    <img src="http://static.photos/bamboo/300x200/1" alt="Bamboo Basket" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Handwoven Bamboo Basket</h3>
+        <p class="text-gray-600 mb-4">Durable bamboo basket crafted by local artisans for daily use.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹550</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="bamboo">
+    <img src="http://static.photos/bamboo/300x200/2" alt="Bamboo Lamp" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Decorative Bamboo Lamp</h3>
+        <p class="text-gray-600 mb-4">Eco-friendly bamboo lamp to brighten up your home décor.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹1,200</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="bamboo">
+    <img src="http://static.photos/bamboo/300x200/3" alt="Wooden Spoon Set" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Wooden Spoon Set</h3>
+        <p class="text-gray-600 mb-4">Hand-carved wooden spoons set, perfect for kitchen use.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹450</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="bamboo">
+    <img src="http://static.photos/bamboo/300x200/4" alt="Bamboo Mat" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Handwoven Bamboo Mat</h3>
+        <p class="text-gray-600 mb-4">Lightweight and eco-friendly bamboo mat for everyday use.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹700</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="bamboo">
+    <img src="http://static.photos/bamboo/300x200/5" alt="Wooden Toy Set" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Traditional Wooden Toy Set</h3>
+        <p class="text-gray-600 mb-4">Eco-friendly wooden toys handcrafted with natural colors.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹950</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+ <!-- Dokra Art (5 products) -->
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="dokra">
+    <img src="http://static.photos/dokra/300x200/1" alt="Dokra Tribal Figurine" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Dokra Tribal Figurine</h3>
+        <p class="text-gray-600 mb-4">Handcrafted brass figurine made using the traditional lost-wax method.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹2,500</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="dokra">
+    <img src="http://static.photos/dokra/300x200/2" alt="Dokra Pendant" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Dokra Pendant Necklace</h3>
+        <p class="text-gray-600 mb-4">Ethnic brass pendant with intricate tribal motifs.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹850</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="dokra">
+    <img src="http://static.photos/dokra/300x200/3" alt="Dokra Candle Holder" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Dokra Candle Holder</h3>
+        <p class="text-gray-600 mb-4">Brass candle stand decorated with traditional tribal designs.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹1,400</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="dokra">
+    <img src="http://static.photos/dokra/300x200/4" alt="Dokra Bull Sculpture" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Dokra Bull Sculpture</h3>
+        <p class="text-gray-600 mb-4">Symbolic handcrafted brass bull sculpture representing tribal strength.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹3,200</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md" data-category="dokra">
+    <img src="http://static.photos/dokra/300x200/5" alt="Dokra Tribal Mask" class="w-full h-48 object-cover">
+    <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">Dokra Tribal Mask</h3>
+        <p class="text-gray-600 mb-4">Decorative brass tribal mask with detailed artistry for wall décor.</p>
+        <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-700">₹2,800</span>
+            <button class="add-to-cart bg-amber-600 text-white px-3 py-1 rounded">Add</button>
+        </div>
+    </div>
+</div>
+
+  
+
+        <!-- Cart Sidebar -->
+        <div id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 h-full w-80 bg-white shadow-lg transform translate-x-full z-50 overflow-y-auto">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg font-bold">Your Shopping Cart</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div id="cart-items" class="p-4">
+                <!-- Cart items will be dynamically inserted here -->
+                <div class="text-center text-gray-500 py-8">Your cart is empty</div>
+            </div>
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex justify-between mb-4">
+                    <span class="font-bold">Total:</span>
+                    <span id="cart-total" class="font-bold">₹0</span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-amber-600 text-white py-2 rounded hover:bg-amber-700 transition">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Complete Your Purchase</h3>
+                <button id="close-payment" class="text-gray-500 hover:text-gray-700">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                    <input type="text" placeholder="1234 5678 9012 3456" class="w-full p-2 border border-gray-300 rounded">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" class="w-full p-2 border border-gray-300 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                        <input type="text" placeholder="123" class="w-full p-2 border border-gray-300 rounded">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
+                    <input type="text" placeholder="John Doe" class="w-full p-2 border border-gray-300 rounded">
+                </div>
+                <button id="pay-now" class="w-full bg-amber-600 text-white py-2 rounded hover:bg-amber-700 transition">Pay Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg hidden">
+        Item added to cart!
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-        feather.replace();
-        
-        // Category selection
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        // Initialize components
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            AOS.init();
 
-        // Product card animation
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                anime({
-                    targets: card,
-                    translateY: -10,
-                    duration: 300,
-                    easing: 'easeInOutQuad'
+            // Cart functionality
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartToggle = document.getElementById('cart-toggle');
+            const closeCart = document.getElementById('close-cart');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.getElementById('cart-count');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const paymentModal = document.getElementById('payment-modal');
+            const closePayment = document.getElementById('close-payment');
+            const payNowBtn = document.getElementById('pay-now');
+            const notification = document.getElementById('notification');
+            const searchInput = document.getElementById('search-input');
+            const categoryTags = document.querySelectorAll('.category-tag');
+            const productCards = document.querySelectorAll('.product-card');
+
+            // Update cart display
+            function updateCartDisplay() {
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<div class="text-center text-gray-500 py-8">Your cart is empty</div>';
+                    cartTotal.textContent = '₹0';
+                    cartCount.textContent = '0';
+                    return;
+                }
+
+                let itemsHTML = '';
+                let total = 0;
+
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    itemsHTML += `
+                        <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
+                            <div>
+                                <h4 class="font-medium">${item.name}</h4>
+                                <div class="text-sm text-gray-500">₹${item.price} × ${item.quantity}</div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-medium mr-4">₹${itemTotal}</span>
+                                <button class="remove-from-cart text-red-500 hover:text-red-700" data-id="${item.id}">
+                                    <i data-feather="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                cartItemsContainer.innerHTML = itemsHTML;
+                cartTotal.textContent = ₹${total};
+                cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+                feather.replace();
+
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.remove-from-cart').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        removeFromCart(id);
+                    });
+                });
+            }
+
+            // Add to cart
+            function addToCart(product) {
+                const existingItem = cart.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        quantity: 1
+                    });
+                }
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartDisplay();
+                
+                // Show notification
+                notification.textContent = ${product.name} added to cart!;
+                notification.classList.remove('hidden');
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                }, 3000);
+            }
+
+            // Remove from cart
+            function removeFromCart(id) {
+                const index = cart.findIndex(item => item.id === id);
+                
+                if (index !== -1) {
+                    cart.splice(index, 1);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartDisplay();
+                }
+            }
+
+            // Toggle cart sidebar
+            cartToggle.addEventListener('click', function() {
+                cartSidebar.classList.toggle('translate-x-full');
+            });
+
+            closeCart.addEventListener('click', function() {
+                cartSidebar.classList.add('translate-x-full');
+            });
+
+            // Add to cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productCard = this.closest('.product-card');
+                    const product = {
+                        id: Math.random().toString(36).substr(2, 9),
+                        name: productCard.querySelector('h3').textContent,
+                        price: parseInt(productCard.querySelector('span').textContent.replace('₹', '').replace(',', ''))
+                    };
+                    addToCart(product);
                 });
             });
-            card.addEventListener('mouseleave', () => {
-                anime({
-                    targets: card,
-                    translateY: 0,
-                    duration: 300,
-                    easing: 'easeInOutQuad'
+
+            // Buy now buttons
+            document.querySelectorAll('.buy-now').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productCard = this.closest('.product-card');
+                    const product = {
+                        id: Math.random().toString(36).substr(2, 9),
+                        name: productCard.querySelector('h3').textContent,
+                        price: parseInt(productCard.querySelector('span').textContent.replace('₹', '').replace(',', ''))
+                    };
+                    
+                    // Clear cart and add this single item
+                    cart.length = 0;
+                    cart.push({...product, quantity: 1});
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartDisplay();
+                    
+                    // Open payment modal
+                    paymentModal.classList.remove('hidden');
                 });
             });
+
+            // Checkout button
+            checkoutBtn.addEventListener('click', function() {
+                if (cart.length > 0) {
+                    paymentModal.classList.remove('hidden');
+                }
+            });
+
+            // Close payment modal
+            closePayment.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+            });
+
+            // Pay now button
+            payNowBtn.addEventListener('click', function() {
+                // Simulate payment processing
+                setTimeout(() => {
+                    paymentModal.classList.add('hidden');
+                    cart.length = 0;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartDisplay();
+                    
+                    // Show success message
+                    notification.textContent = 'Payment successful! Your order has been placed.';
+                    notification.classList.remove('hidden');
+                    notification.classList.remove('bg-green-500');
+                    notification.classList.add('bg-blue-500');
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                        notification.classList.remove('bg-blue-500');
+                        notification.classList.add('bg-green-500');
+                    }, 3000);
+                }, 1500);
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                productCards.forEach(card => {
+                    const name = card.querySelector('h3').textContent.toLowerCase();
+                    const category = card.getAttribute('data-category');
+                    
+                    if (name.includes(searchTerm) || category.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            // Category filtering
+            categoryTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    productCards.forEach(card => {
+                        if (card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // Reset search input
+                    searchInput.value = '';
+                });
+            });
+
+            // Initialize cart display
+            updateCartDisplay();
         });
     </script>
 </body>

@@ -1,76 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Netarhat - Jharkhand Tourism</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-</head>
-<body class="bg-white">
+{% extends 'base.html' %}
 
-    <section class="relative h-96 bg-cover bg-center text-white" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/Netarhat_Sunset.jpg');">
-        <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
-            <h1 class="text-5xl font-extrabold" data-aos="fade-up">Welcome to Netarhat</h1>
-            <p class="text-xl mt-4" data-aos="fade-up" data-aos-delay="100">The Queen of Chotanagpur</p>
-            <a href="{{ url_for('home') }}" class="mt-8 inline-block bg-white text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-200 transition">&larr; Back to Home</a>
+{% block title %}Explore Netarhat - Jharkhand Tourism{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+        <div class="text-center" data-aos="fade-up">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
+                Netarhat
+            </h1>
         </div>
-    </section>
 
-    <section class="py-16">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4" data-aos="fade-up">About Netarhat</h2>
-            <p class="text-lg text-gray-600" data-aos="fade-up" data-aos-delay="100">
-                Netarhat is a serene and picturesque hill station, often called the "Queen of Chotanagpur." Famous for its glorious sunrises and sunsets, the town is covered with dense forests and offers a tranquil retreat from city life with its cool, pleasant climate throughout the year.
+        <div class="mt-6 max-w-3xl mx-auto text-center" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Netarhat is a serene hill station, often called the "Queen of Chotanagpur." Famous for its glorious sunrises and sunsets, the town is covered with dense forests and offers a tranquil retreat from city life with its cool, pleasant climate.
             </p>
         </div>
-    </section>
 
-    <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12" data-aos="fade-up">Top Attractions in Netarhat</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up">
-                    <img src="magnolia.jpeg" alt="Magnolia Sunset Point" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Magnolia Sunset Point</h3>
-                        <p class="text-gray-600">The most famous viewpoint in Netarhat, offering breathtaking views of the sun setting over the lush hills and valleys.</p>
-                    </div>
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+                <div class="overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                    <img src="{{ url_for('static', filename='magnolia.jpeg') }}" alt="Magnolia Sunset Point" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
                 </div>
-
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                    <img src="koel.jpeg" alt="Koel View Point" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Koel View Point</h3>
-                        <p class="text-gray-600">A beautiful spot that offers a stunning view of the Koel River meandering through the dense green forests below.</p>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                    <img src="lodh.jpeg" alt="Lodh Falls" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Lodh Falls</h3>
-                        <p class="text-gray-600">Located a short drive from Netarhat, this is Jharkhand's highest waterfall, cascading down from a height of 469 feet.</p>
-                    </div>
-                </div>
-
+                <h3 class="mt-4 text-xl font-bold text-slate-700">Magnolia Sunset Point</h3>
+                <p class="mt-1 text-slate-500">The most famous viewpoint, offering breathtaking sunset views.</p>
             </div>
-        </div>
-    </section>
 
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p>&copy; 2025 Jharkhand Explorer. All rights reserved.</p>
-        </div>
-    </footer>
+            <div class="group" data-aos="fade-up" data-aos-delay="300">
+                <div class="overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                    <img src="{{ url_for('static', filename='koel.jpeg') }}" alt="Koel View Point" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                </div>
+                <h3 class="mt-4 text-xl font-bold text-slate-700">Koel View Point</h3>
+                <p class="mt-1 text-slate-500">A stunning view of the Koel River meandering through the forests.</p>
+            </div>
 
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-    </script>
-</body>
-</html>
+            <div class="group" data-aos="fade-up" data-aos-delay="400">
+                <div class="overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                    <img src="{{ url_for('static', filename='lodh.jpeg') }}" alt="Lodh Falls" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                </div>
+                <h3 class="mt-4 text-xl font-bold text-slate-700">Lodh Falls</h3>
+                <p class="mt-1 text-slate-500">Jharkhand's highest waterfall, cascading down from 469 feet.</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

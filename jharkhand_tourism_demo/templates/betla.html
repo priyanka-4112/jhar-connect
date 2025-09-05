@@ -1,76 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Betla National Park - Jharkhand Tourism</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-</head>
-<body class="bg-white">
+{% extends 'base.html' %}
 
-    <section class="relative h-96 bg-cover bg-center text-white" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f7/Betla_National_Park.jpg');">
-        <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
-            <h1 class="text-5xl font-extrabold text-center" data-aos="fade-up">Welcome to Betla National Park</h1>
-            <p class="text-xl mt-4" data-aos="fade-up" data-aos-delay="100">A Haven for Wildlife</p>
-            <a href="{{ url_for('home') }}" class="mt-8 inline-block bg-white text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-200 transition">&larr; Back to Home</a>
+{% block title %}Explore Betla National Park - Jharkhand Tourism{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+        <div class="text-center" data-aos="fade-up">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
+                Betla National Park
+            </h1>
         </div>
-    </section>
 
-    <section class="py-16">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4" data-aos="fade-up">About Betla National Park</h2>
-            <p class="text-lg text-gray-600" data-aos="fade-up" data-aos-delay="100">
-                Betla National Park is a beautiful and vast park that was one of the first in India to be declared a tiger reserve. It is home to a rich diversity of wildlife, including elephants, leopards, wild boar, and various species of deer and birds, all within a stunning landscape of lush forests and grasslands.
+        <div class="mt-6 max-w-3xl mx-auto text-center" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Betla National Park is a beautiful and vast park that was one of the first in India to be declared a tiger reserve. It is home to a rich diversity of wildlife, including elephants, leopards, and various species of deer within a stunning landscape of lush forests and grasslands.
             </p>
         </div>
-    </section>
 
-    <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12" data-aos="fade-up">Key Sights & Activities</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up">
-                    <img src="safari.jpeg" alt="Jeep Safari" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Jeep Safari</h3>
-                        <p class="text-gray-600">Embark on a thrilling jeep safari through the park's core areas to spot wildlife in their natural habitat.</p>
-                    </div>
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+                <div class="overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                    <img src="{{ url_for('static', filename='safari.jpeg') }}" alt="Jeep Safari" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
                 </div>
-
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                    <img src="palamu.jpeg" alt="Palamu Forts" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Palamu Forts</h3>
-                        <p class="text-gray-600">Explore the historic ruins of two large forts built by the Chero kings, located deep inside the forest.</p>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                    <img src="eleride.jpeg" alt="Elephant Ride" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Elephant Rides</h3>
-                        <p class="text-gray-600">Experience a unique perspective of the forest and its inhabitants with a guided elephant ride.</p>
-                    </div>
-                </div>
-
+                <h3 class="mt-4 text-xl font-bold text-slate-700">Jeep Safari</h3>
+                <p class="mt-1 text-slate-500">Embark on a thrilling safari to spot wildlife in their natural habitat.</p>
             </div>
-        </div>
-    </section>
 
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p>&copy; 2025 Jharkhand Explorer. All rights reserved.</p>
-        </div>
-    </footer>
+            <div class="group" data-aos="fade-up" data-aos-delay="300">
+                <div class="overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                    <img src="{{ url_for('static', filename='palamu.jpeg') }}" alt="Palamu Forts" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                </div>
+                <h3 class="mt-4 text-xl font-bold text-slate-700">Palamu Forts</h3>
+                <p class="mt-1 text-slate-500">Explore the historic ruins of two large Chero king forts inside the forest.</p>
+            </div>
 
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-    </script>
-</body>
-</html>
+            <div class="group" data-aos="fade-up" data-aos-delay="400">
+                <div class="overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                    <img src="{{ url_for('static', filename='eleride.jpeg') }}" alt="Elephant Ride" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                </div>
+                <h3 class="mt-4 text-xl font-bold text-slate-700">Elephant Rides</h3>
+                <p class="mt-1 text-slate-500">Experience a unique perspective of the forest with a guided elephant ride.</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
